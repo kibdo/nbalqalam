@@ -1,0 +1,46 @@
+{%extends 'admin/base-temp.html'%}
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static', filename='css/post-list.css')}}">
+{%endblock%}
+{%block content%}
+<div class="row mt-3">
+    <div class="col-md-11 col-lg-10 mx-auto">
+        <h1>Posts</h1>
+        <div class="row mt-3">
+            <div class="col-12">
+                <a class="btn btn-primary" href="{{url_for('main.create_post')}}">Create New</a>
+            </div>
+            <div class="col-12 mt-3">
+               <table class="table">
+                   <thead class="bg-dark text-white">
+                     <tr>
+                       <th scope="col">Image</th>
+                       <th scope="col">Title</th>                                
+                       <th scope="col">Author</th>
+                       <th scope="col">Date Created</th>
+                       <th scope="col">Tools</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     {% for post in all_posts %}
+                        <tr>
+                          <td class="post-thumbnail"><img  src="{{url_for('static', filename='images/post-images/')}}{{ post.post_image }}" alt=""></td>
+                          <td><a href="{{url_for('main.post_details', id=post.id, slug=post.slug)}}">{{ post.title }}</a></td>
+                          <td>{{ post.author.firstname }} {{ post.author.lastname }}</td>
+                          <td>{{ post.created_at.strftime('%B %m, %Y') }}</td>
+                          <td>
+                              <a href="{{ url_for('main.edit_post', id=post.id, slug=post.slug) }}" class="btn btn-success my-1">Edit</a>
+                              <a href="{{ url_for('main.delete_post', id=post.id, slug=post.slug) }}" class="btn btn-danger ml-2 my-1">Delete</a> </td>
+                        </tr>
+                     {% endfor %}
+                     
+
+                   </tbody>
+                 </table>
+                 
+                 
+            </div>
+        </div>
+    </div>
+</div>
+    {%endblock content%}

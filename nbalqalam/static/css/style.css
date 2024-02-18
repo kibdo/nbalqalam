@@ -1,0 +1,58 @@
+.carousel-item img{
+    height: 400px;
+}
+.navbar{
+    box-shadow: none;
+}
+.section-100{
+    min-height: 100vh;
+}
+.section-75{
+    min-height: 75vh;
+}
+.notice-board .board-card img{
+    max-width: 328px;
+    max-height: 180px;
+}
+
+@media(max-width:707px){
+    .board-card{
+        max-width: 312px;
+    }
+}
+@media(max-width:399px){
+    .carousel-item img{
+        height: 180px;
+    }
+    .board-card-img-top{
+        max-width: 250px;
+        max-height: 180px
+    }
+}
+@media(min-width:400px) and (max-width:600px){
+    .carousel-item img{
+        height: 200px;
+    }
+    .board-card-img-top{
+        width: 328px;
+        height: 180px
+    }
+}
+@media(min-width:601px) and (max-width:900px){
+    .carousel-item img{
+        height: 350px;
+    }
+    .board-card-img-top{
+        width: 328px;
+        height: 180px
+    }
+}
+@media(min-width:901px){
+    .carousel-item img{
+        height: 450px;
+    }
+    .board-card-img-top{
+        width: 328px;
+        height: 180px
+    }
+}

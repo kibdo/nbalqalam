@@ -1,0 +1,159 @@
+{%extends 'user/base-temp.html'%}
+{%block style%}
+
+{%endblock style%}
+{%block content%}
+<div class="row section-75">
+    <div class="col-md-11">
+        <div class="row h-100">
+            <div class="col-md-6 col-sm-9 col-lg-5 col-xl-4 col-11 mx-auto my-auto">
+                <div class="d-flex flex-column">
+                    <h5 class="text-center">Edit Profile</h5>
+                   <form method="post" action="" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                       <div class="form-group my-2">
+                           {% if error in form.firstname.errors %}
+
+                             {{ form.firstname(class="form-control border border-danger", placeholder="Firstname") }}
+
+                           {% for error in form.firstname.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                           {% endfor %}
+                           
+                           {% else %}
+                                {{form.firstname(class="form-control", placeholder="Firstname")}}
+                           {% endif %}
+                       </div>
+                       <div class="form-group my-2">
+                           {% if error in form.lastname.errors %}
+
+                             {{ form.lastname(class="form-control border border-danger", placeholder="Lastname") }}
+
+                           {% for error in form.lastname.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                           {% endfor %}
+                           
+                           {% else %}
+                                {{form.lastname(class="form-control", placeholder="Lastname")}}
+                           {% endif %}
+                       </div>
+                       <div class="form-group my-2 ">
+                           {% if error in form.email.errors %}
+
+                             {{ form.email(class="form-control border border-danger", placeholder="Email") }}
+
+                           {% for error in form.email.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                           {% endfor %}
+                           
+                           {% else %}
+                                {{form.email(class="form-control", placeholder="Email Address")}}
+                           {% endif %}
+                       </div>
+                       {% if (current_user.is_student or current_user.is_student_admin) or current_user.is_admin%}
+                                <div class="form-group my-2 ">
+                                    {% if error in form.matric_number.errors %}
+
+                                        {{ form.matric_number(class="form-control border border-danger", placeholder="Matric. Number") }}
+
+                                    {% for error in form.matric_number.errors %}
+                                            <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                    
+                                    {% else %}
+                                            {{form.matric_number(class="form-control", placeholder="Matric Number")}}
+                                    {% endif %}
+                                </div>
+                      {% endif %}
+                      <div class="form-group my-2 ">
+                            {% if error in form.contact_info.errors %}
+
+                                {{ form.contact_info(class="form-control border border-danger", placeholder="Phone Number") }}
+
+                            {% for error in form.contact_info.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            
+                            {% else %}
+                                    {{form.contact_info(class="form-control", placeholder="Phone Number")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group my-2 ">
+                            {% if error in form.address.errors %}
+
+                                {{ form.address(class="form-control border border-danger", placeholder="Address") }}
+
+                            {% for error in form.address.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            
+                            {% else %}
+                                    {{ form.address(class="form-control", placeholder="Address") }}
+                            {% endif %}
+                        </div>
+                       <div class="form-group mt-2 d-flex flex-wrap">
+                           {% if error in form.profile_picture.errors %}
+                                {{ form.profile_picture.label }}
+                                {{ form.profile_picture(class="form-control-file") }}
+
+                            {% for error in form.address.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            
+                            {% else %}
+                                {{ form.profile_picture.label }}
+                                {{ form.profile_picture(class="form-control-file") }}
+                            {% endif %}
+                      </div>
+                      {% if current_user.is_admin %}
+                        <div class="form-group mt-2 d-flex flex-wrap">
+                           {% if error in form.is_admin.errors %}                                
+                                {{ form.is_admin(class="form-check-input") }}
+                                {{ form.is_admin.label(class="form-check-label") }}
+                            {% for error in form.address.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            
+                            {% else %}
+                            {{ form.is_admin(class="form-check-input") }}
+                            {{ form.is_admin.label(class="form-check-label") }}
+                            {% endif %}
+                      </div>
+                      <div class="form-group mt-2 d-flex flex-wrap">
+                        {% if error in form.is_student.errors %}                                
+                             {{ form.is_student(class="form-check-input") }}
+                             {{ form.is_student.label(class="form-check-label") }}
+                         {% for error in form.address.errors %}
+                                 <span class="text-danger">{{ error }}</span>
+                         {% endfor %}
+                         
+                         {% else %}
+                         {{ form.is_student(class="form-check-input") }}
+                         {{ form.is_student.label(class="form-check-label") }}
+                         {% endif %}
+                        </div>
+                        <div class="form-group mt-2 d-flex flex-wrap">
+                           {% if error in form.is_student_admin.errors %}                                
+                                {{ form.is_student_admin(class="form-check-input border border-danger") }}
+                                {{ form.is_student_admin.label(class="form-check-label") }}
+                            {% for error in form.address.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            
+                            {% else %}
+                            {{ form.is_student_admin(class="form-check-input") }}
+                            {{ form.is_student_admin.label(class="form-check-label") }}
+                            {% endif %}
+                      </div>
+                      {% endif %}
+                      
+                      {{ form.submit(class="btn btn-primary mt-2") }}
+                     </form>
+                     
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

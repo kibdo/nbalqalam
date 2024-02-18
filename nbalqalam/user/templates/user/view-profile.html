@@ -1,0 +1,57 @@
+{%extends 'user/base-temp.html'%}
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static', filename='css/user-profile.css')}}">
+{%endblock style%}
+{%block content%}
+<div class="row section-75">
+    <div class="col-md-11 mx-auto">
+        <div class="row">
+            
+           <div class="col-12 d-flex flex-column align-items-center">
+               <div class="d-flex flex-md-row flex-column border rounded">
+                   <div class="border d-flex justify-content-center justify-content-md-start">
+                       <img class="img-fluid profile-picture" src="{{url_for('static', filename='images/profile-pictures/')}}{{user.photo}}" alt="">
+                   </div>
+                   <div>
+                       <table class="table mb-0">
+                           <tbody>
+                               <tr>
+                                   <td>Name: </td>
+                                   <td>{{ user.firstname }} {{ user.lastname }}</td>
+                               </tr>
+                               <tr>
+                                   <td>Email: </td>
+                                   <td>{{ user.email }}</td>
+                               </tr>
+                               {% if (current_user.is_student or current_user.is_student_admin) or current_user.is_admin %}
+                                <tr>
+                                    <td>Matriculation Number: </td>
+                                    <td>{{ user.matric_number }}</td>
+                                </tr>
+                               {% endif %}
+                               <tr>
+                                    <td>Phone Number: </td>
+                                    <td>{{ user.contact_info }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address: </td>
+                                    <td>{{ user.address }}</td>
+                                </tr>
+                               <tr>
+                                   <td>Member Since: </td>
+                                   <td>{{ user.created_on.strftime('%Y-%m-%d') }}</td>
+                               </tr>
+                           </tbody>
+                       </table>
+                   </div>
+                   <div class="p-3">
+                    {% if (current_user.id == user.id) or current_user.is_admin %}
+                       <a href="{{url_for('user.edit_profile', user_id=user.id)}}" class="btn btn-success">Edit</a>
+                       {% endif %}
+                   </div>
+               </div>
+           </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

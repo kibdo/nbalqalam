@@ -1,0 +1,70 @@
+{%extends 'admin/base-temp.html'%}
+{%block script_top%}
+<script src="https://cdn.tiny.cloud/1/6gio2ol0ymm23sr7vfzp843qyikkxqbt17ah74ho0p44nnom/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+      selector: '#postbody'
+    });
+  </script>
+{%endblock script_top%}
+{%block style%}
+{%endblock%}
+{%block content%}
+<div class="row mt-3">
+    <div class="col-md-11 col-lg-10 mx-auto">
+        <h1>Create Post</h1>
+        <div class="row mt-3">
+           <div class="col-md-4 col-lg-7 col-sm-6 col-10 mx-center" >
+               <form method='post' action="{{url_for('main.create_post')}}" enctype="multipart/form-data">
+                  {{form.hidden_tag()}}
+                   <div class="form-group">
+                     {% if form.title.errors %}
+                        {{ form.title(class="form-control border border-danger", placeholder="Post Title") }}
+                        {% for error in form.title.errors %}
+                          <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                     {% else %}
+                        {{ form.title(class="form-control", placeholder="Post Title") }}
+                     {% endif %}
+                   </div>
+                   <div class="form-group mt-2">
+                     {% if form.body.errors %}
+                     {{ form.body(class="form-control border border-danger", id="postbody", rows="3", placeholder="Type Message") }}
+                        {% for error in form.body.errors %}
+                          <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                     {% else %}
+                     {{ form.body(class="form-control", id="postbody", rows="3", placeholder="Type Message") }}
+                     {% endif %}
+                    
+                   </div>
+                   <div class="form-group mt-2">
+                    {% if form.slug.errors %}
+                       {{ form.slug(class="form-control border border-danger", placeholder="Slug") }}
+                       {% for error in form.slug.errors %}
+                         <span class="text-danger">{{ error }}</span>
+                       {% endfor %}
+                    {% else %}
+                       {{ form.slug(class="form-control", placeholder="Slug") }}
+                    {% endif %}
+                  </div>
+                   <div class="form-group mt-2">
+                    {% if form.post_image.errors %}
+                        {{ form.post_image.label }}
+                        {{ form.post_image(class="form-control-file") }}
+                       {% for error in form.post_image.errors %}
+                         <span>{{error}}</span>
+                       {%endfor%}
+                    {% else %}
+                        {{ form.post_image.label }}
+                        {{ form.post_image(class="form-control-file") }}
+                    {% endif %} 
+                     </div>
+                     {{ form.submit(class="btn btn-primary mt-3") }}
+                 </form>
+           </div>
+    </div>
+</div>
+</div>
+{%endblock content%}

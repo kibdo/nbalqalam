@@ -1,0 +1,146 @@
+{%extends 'admin/base-temp.html'%}
+{%block content%}
+
+<div class="row mt-3">
+  <div class="col-md-11 col-lg-10 mx-auto">
+    <div class='alert alert-success' role='alert'></div>
+    <div class='alert alert-error alert-danger' role='alert'></div>
+  </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-11 col-lg-10 mx-auto">
+        <h1>Broadcast SMS</h1>
+        <div class="row mt-3">
+            <div class="col-md-5 col-lg-4 col-sm-8 col-10">
+               <form method="post" action='{{url_for("admin.send_broadcast_messages")}}'>
+
+                <div class="form-group my-2">
+                  {% if form.subject.errors %}
+                      {{ form.subject(class="form-control is-invaspand", id='subject', placeholder="Subject") }}
+                      
+                        {% for error in form.subject.errors %}
+                          <span class="invaspand-feedback">{{ error }}</span>
+                        {% endfor %}
+                      
+                      
+                  {% else %}
+                      {{ form.subject(class="form-control", id='subject', placeholder="Subject") }}
+                  {% endif %}
+                 
+               </div>
+
+                <div class="form-group my-2">
+                  {% if form.body.errors %}
+                      {{ form.body(placeholder="Write the Message to be Sent", class="form-control", id="message", rows="3") }}
+                      
+                        {% for error in form.body.errors %}
+                          <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                      
+                      
+                  {% else %}
+                      {{ form.body(placeholder="Write the Message to be Sent", class="form-control", id="message", rows="3") }}
+                  {% endif %}
+                 
+               </div>
+               {{ form.submit(class="btn btn-primary mt-2", id='send') }}
+                 </form>
+            </div>
+            <div class="col-12 mt-3">
+               <table class="table">
+                   <thead class="bg-dark text-white">
+                     <tr>
+                       <th scope="col">
+                           <div class="form-check">
+                               <input class="form-check-input" type="checkbox" value="" id="form-check-input-all">
+                           </div>
+                       </th>
+                       <th scope="col">Email</th>
+                       <th scope="col">Name</th>
+                       <th scope="col">Phone</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     {% for user in users %}
+                      <tr class="user-data">
+                        <td class="profile-pic">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                
+                            </div>
+                        </td>
+                        <td class="email">{{user.email}}</td>
+                        <td class="name">{{ user.firstname }}  {{ user.lastname }}</td>
+                        <td>{{ user.contact_info }}</td>
+                    </tr>
+                   {% endfor %}
+                   </tbody>
+                 </table>
+                 
+                 
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}
+
+{%block script%}
+    <script>
+         $(document).ready(function(){
+          $('.alert-error').hide();
+          $('.alert-success').hide();
+          let check_all = $('#form-check-input-all').first();
+          let list_users = [];
+          check_all.change(function(){
+            if ($(this).prop('checked') == true){
+              $.each($('.form-check-input'),function(index, value){
+                $(value).prop('checked', true)
+              });
+            }
+            else{
+              $.each($('.form-check-input'),function(index, value){
+                $(value).prop('checked', false);
+
+              });
+            }
+          });
+
+          $('#send').on('click', function(event){
+            event.preventDefault();
+
+              $.each($('.user-data'), function(index, value){
+              
+              let email_address = $(value).find('.email').text();
+              let name = $(value).find('.name').text();
+              if ($(value).find('.form-check-input').prop('checked') == true){
+                list_users.push({'name': name, 'email':email_address})
+              }
+              
+            })
+            $.ajax({
+                    url: $('form').attr('action'),
+                    type: 'POST',
+                    contenType: 'application/json',
+                    data: {'users': JSON.stringify({list_users}), 'message': $('#message').val(), 'subject': $('#subject').val()},
+                    success: function(response){
+                      console.log('hhh')
+                        if (response.success){
+                            $('.alert-success').text(response.success);
+                            $('.alert-success').slideDown().delay(2000).slideUp().hide(0);
+                        }
+                        else if (response.error){
+                            $('.alert-error').text(response.error);
+                            $('.alert-error').slideDown().delay(2000).slideUp().hide(0);
+                        }
+                    }
+                });
+            
+
+                
+          })
+
+
+         })
+    </script>
+{%endblock script%}

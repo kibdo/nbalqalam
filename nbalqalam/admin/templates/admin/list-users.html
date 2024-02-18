@@ -1,0 +1,53 @@
+{%extends 'admin/base-temp.html'%}
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static', filename='css/usersList.css')}}">
+{%endblock%}
+{%block content%}
+<div class="row mt-3">
+    <div class="col-md-11 col-lg-10 mx-auto">
+        <h1>Users</h1>
+        <div class="row mt-5">
+            <div class="col-12">
+                <a class="btn btn-primary" href="{{ url_for('admin.create_user') }}">New</a>
+            </div>
+            <div class="col-12 mt-3">
+               <table class="table">
+                   <thead class="bg-dark text-white">
+                     <tr>
+                       <th scope="col">Photo</th>
+                       <th scope="col">Email</th>
+                       <th scope="col">Name</th>
+                       <th scope="col">Status</th>
+                       <th scope="col">Date Added</th>
+                       <th scope="col">Tools</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     {% for user in users %}
+                      <tr>
+                        <td class="profile-pic"><img  src="{{url_for('static', filename='images/profile-pictures/')}}{{user.photo}}" alt=""></td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.firstname }} {{ user.lastname }}</td>
+                        <td>
+                          {% if user.status == True %}
+                          <span class="badge bg-success">Active</span>
+                          {% else %}
+                          <span class="badge bg-danger">Disabled</span>
+                            
+                          {% endif %}
+                        </td>
+                        <td>{{ user.created_on.strftime('%m-%d-%Y') }}</td>
+                        <td>
+                          <a href="{{ url_for('user.edit_profile', user_id=user.id) }}" class="btn btn-success">Edit</a>
+                          <a href="{{ url_for('user.delete_user', user_id=user.id) }}" class="btn btn-danger ml-2">Delete</a> </td>
+                      </tr>
+                     {% endfor %}
+                   </tbody>
+                 </table>
+                 
+                 
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

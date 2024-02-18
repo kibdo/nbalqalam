@@ -1,0 +1,128 @@
+{% extends 'admin/base-temp.html' %}
+{% block content %}
+<div class="row section-100 mt-3">
+    <div class="col-md-11">
+        <div class="row h-100">
+            <div class="col-md-6 col-sm-9 col-lg-5 col-xl-4 col-11 mx-auto my-auto">
+                <div class="bg-white py-5 px-3 rounded d-flex flex-column">
+                    <h5 class="text-center">Create User</h5>
+                   <form method="post" action="" enctype="multipart/form-data">
+                     {{form.hidden_tag()}}
+                       <div class="form-group my-2">
+                          {% if form.firstname.errors %}
+                              {{ form.firstname(class="form-control is-invaspand", placeholder="Firstname") }}
+                              
+                                {% for error in form.firstname.errors %}
+                                  <span class="invaspand-feedback">{{ error }}</span>
+                                {% endfor %}
+                              
+                              
+                          {% else %}
+                              {{ form.firstname(class="form-control", placeholder="Firstname") }}
+                          {% endif %}
+                         
+                       </div>
+                       <div class="form-group my-2">
+                         {% if form.lastname.errors %}
+                              {{ form.lastname(class="form-control is-invaspand", placeholder="Lastname") }}
+                              
+                                {% for error in form.lastname.errors %}
+                                  <span class="invaspand-feedback">{{ error }}</span>
+                                {% endfor %}
+                              
+                          {% else %}
+                              {{ form.lastname(class="form-control", placeholder="Lastname") }}
+                          {% endif %}
+                        
+                       </div>
+                       <div class="form-group my-2 ">
+                         {% if form.email.errors %}
+                            {{ form.email(class="form-control is-invaspand", placeholder="Email Address") }}
+                                {% for error in form.email.errors %}
+                                  <span class="invaspand-feedback">{{ error }}</span>
+                                {% endfor %}
+                          {% else %}
+                            {{  form.email(class="form-control", placeholder="Email Address") }}
+                          {%  endif %}
+                       </div>
+                       <div class="form-group my-2 ">
+                        {% if form.contact_info.errors %}
+                           {{ form.contact_info(class="form-control is-invaspand", placeholder="Phone Number") }}
+                               {% for error in form.contact_info.errors %}
+                                 <span class="invaspand-feedback">{{ error }}</span>
+                               {% endfor %}
+                         {% else %}
+                           {{  form.contact_info(class="form-control", placeholder="Phone Number") }}
+                         {%  endif %}
+                      </div>
+                      <div class="form-group my-2 ">
+                        {% if form.address.errors %}
+                           {{ form.address(class="form-control is-invaspand", placeholder="Contact Address") }}
+                               {% for error in form.address.errors %}
+                                 <span class="invaspand-feedback">{{ error }}</span>
+                               {% endfor %}
+                         {% else %}
+                           {{  form.address(class="form-control", placeholder="Contact bAddress") }}
+                         {%  endif %}
+                      </div>
+                      <div class="form-group mt-2 d-flex flex-wrap">
+                           {% if error in form.profile_picture.errors %}
+                                {{ form.profile_picture.label }}
+                                {{ form.profile_picture(class="form-control-file") }}
+
+                            {% for error in form.address.errors %}
+                                    <span>{{ error }}</span>
+                            {% endfor %}
+                            
+                            {% else %}
+                                {{ form.profile_picture.label }}
+                                {{ form.profile_picture(class="form-control-file") }}
+                            {% endif %}
+                      </div>
+                      <div class="form-group my-2">
+                        {% if form.password.errors %}
+                             {{ form.password(class="form-control is-invaspand", placeholder="Password") }}
+                             
+                               {% for error in form.password.errors %}
+                                 <span class="invaspand-feedback">{{ error }}</span>
+                               {% endfor %}
+                             
+                         {% else %}
+                           {{ form.password(class="form-control", placeholder="Password") }}
+                         {% endif %}
+                      </div>
+                      <div class="form-group my-2">
+                        {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="form-control is-invaspand", placeholder="Confirm Passowrd") }}
+                             
+                               {% for error in form.confirm_password.errors %}
+                                 <span class="invaspand-feedback">{{ error }}</span>
+                               {% endfor %}
+                             
+                         {% else %}
+                           {{ form.confirm_password(class="form-control", placeholder="Confirm Passowrd") }}
+                         {% endif %}
+                        </div>
+                      <div class="form-group my-2 ">
+                            {{ form.student(class="form-check-input") }}
+                            {{ form.student.label(class="form-check-label") }}
+                      </div>
+                      <div class="form-group my-2 ">
+                            {{ form.student_admin(class="form-check-input") }}
+                            {{ form.student_admin.label(class="form-check-label") }}
+                      </div>
+                      <div class="form-group my-2 ">
+                            {{ form.admin(class="form-check-input") }}
+                            {{ form.admin.label(class="form-check-label") }}
+                      </div>
+                       
+                       {{ form.submit(class="btn btn-primary mt-2") }}
+                     </form>
+                     
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

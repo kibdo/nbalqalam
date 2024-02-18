@@ -1,0 +1,93 @@
+{%extends 'main/base-temp.html'%}
+{%block script_top%}
+<script src="https://cdn.tiny.cloud/1/6gio2ol0ymm23sr7vfzp843qyikkxqbt17ah74ho0p44nnom/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+      selector: '#postbody'
+    });
+  </script>
+{%endblock script_top%}
+{%block style%}
+{%endblock%}
+{%block content%}
+    <!--Notifications-->
+    <div class="row section-75 ">
+        <div class="col-md-11 mx-auto">
+            <div class="row my-4">                     
+               <div class="col-lg-9 d-flex flex-column notice-board mx-auto">
+                   <h1 class="align-self-center align-self-md-start ">Class Notification</h1>
+                   <div class="w-100 ">
+                     {% for class_notification in class_notifications %}
+                     <div class="my-3 ">
+                        <div class="board-card d-flex flex-column border justify-content-start my-1 flex-md-row  mx-auto mx-md-0 ">
+                           <img class="board-card-img-top " src="{{ url_for('static', filename='images/post-images/') }}{{ class_notification.post_image }}/">
+                           <div class="board-card-body d-flex flex-column px-md-3 py-2 py-md-0">
+                             <h3 class="board-card-title">{{ class_notification.title }}</h3>
+                             <p class="board-card-text m-0"><small class="text-muted">Posted on {{ class_notification.created_at.strftime('%Y-%m-%d') }}</small></p>
+                             <p class="board-card-text my-3">{{ class_notification.body }}</p>
+                           </div>
+                           <div class="align-self-end" style="margin-left: auto;">
+                              {%if current_user.is_authenticated and ((current_user.is_student or current_user.is_student_admin) or current_user.is_admin) %}
+                                <a class="btn btn-danger m-2 " href="{{ url_for('main.delete_class_notification', id=class_notification.id) }}">Delete</a>
+                              {% endif %}
+                           </div>
+                           
+                       </div>
+                          
+                     </div>
+                       
+                       {% endfor %}
+                   </div>
+                   <div class="row my-5">
+                       <div class="col-md-8 ">
+                           <h2>Post Notification</h2>
+                           {% if current_user.is_student_admin or current_user.is_admin %}
+                              <form method='post' action="{{ url_for('main.post_class_notification') }}" enctype="multipart/form-data">
+                                {{form.hidden_tag()}}
+                                <div class="form-group">
+                                  {% if form.title.errors %}
+                                      {{ form.title(class="form-control", placeholder="Post Title") }}
+                                      {% for error in form.title.errors %}
+                                        <span>{{ error }}</span>
+                                      {% endfor %}
+                                  {% else %}
+                                      {{ form.title(class="form-control", placeholder="Post Title") }}
+                                  {% endif %}
+                                </div>
+                                <div class="form-group mt-2">
+                                  {% if form.body.errors %}
+                                  {{ form.body(class="form-control", id="postbody", rows="3", placeholder="Type Message") }}
+                                      {% for error in form.body.errors %}
+                                        <span>{{ error }}</span>
+                                      {% endfor %}
+                                  {% else %}
+                                  {{ form.body(class="form-control", id="postbody", rows="3", placeholder="Type Message") }}
+                                  {% endif %}
+                                  
+                                </div>
+                                <div class="form-group mt-2">
+                                  {% if form.post_image.errors %}
+                                      {{ form.post_image.label }}
+                                      {{ form.post_image(class="form-control-file") }}
+                                    {% for error in form.post_image.errors %}
+                                      <span>{{error}}</span>
+                                    {%endfor%}
+                                  {% else %}
+                                      {{ form.post_image.label }}
+                                      {{ form.post_image(class="form-control-file") }}
+                                  {% endif %} 
+                                  </div>
+                                  {{ form.submit(class="btn btn-primary mt-3") }}
+                              </form>
+                              {% endif %}
+                       </div>
+                   </div>
+                   
+                 </div>
+            </div>
+        </div>
+    </div>
+    <!--/Notifications-->
+
+{%endblock content%}

@@ -1,0 +1,64 @@
+{%extends 'main/base-temp.html'%}
+
+    {%block style%}
+        <link rel="stylesheet" href="{{url_for('static', filename='css/post-details.css')}}">
+    {%endblock style%}
+
+{%block content%}
+<div class="row section-75  mt-5 mb-3">
+    <div class="col-md-11 mx-auto">
+        <div class="row d-flex justify-content-around h-100">
+            
+            
+           <div class="col-lg-7 col-xl-8 d-flex flex-column  bg-light rounded h-100">
+               <div class='d-flex flex-column py-4'>
+                   <h1 class="align-self-center text-center">{{post.title}}</h1>
+                   <div class='d-flex flex-column mt-3'>
+                       <div class="border w-100 bg-dark"></div>
+
+                           <div class="d-flex flex-row justify-content-center py-2">
+                               <div class="mx-2">
+                                   {{ post.created_at.strftime('%B %d, %Y') }}
+                               </div>
+                               <div class="mx-2">
+                                   {{ author.firstname }} {{ author.lastname }}
+                               </div>
+                           </div>
+                       <div class="border w-100 bg-dark"></div>
+                   </div>
+               </div>
+               <div class="notice ">
+                   <div class="row">
+                       <div class="col-12 mx-auto">
+                           <img src="{{post_image_url}}" class="img-fluid w-100 post-thumbnail" alt="">
+                       </div>
+                       <div class="col-12 mt-3">
+                           {{ post.body|safe }}
+                       </div>
+                   </div>
+               </div>
+               <div>
+                   {% if current_user.is_admin or (current_user.id == post.author_id) %}
+                   <a class="btn btn-primary"  href="{{url_for('main.edit_post', slug=post.slug, id=post.id)}}">Edit Post</a>
+                   <a class="btn btn-danger"  href="{{url_for('main.delete_post', slug=post.slug, id=post.id)}}">Delete Post</a>
+                   {% endif %}
+               </div>
+           </div>
+             <div class="col-lg-3 d-none d-lg-block bg-light rounded px-0">
+               <h3 class="bg-primary py-2 px-3 rounded-top text-white">Recent Posts</h3>
+               <div class="mx-3">
+                   {% if recent_posts %}
+                   <ul class="list-unstyled ">
+                       {%for post in recent_posts%}
+                       <li class="py-1">
+                           <a href="{{url_for('main.post_details', slug=post.slug, id=post.id)}}">{{ post.title }}</a>
+                       </li>
+                       {% endfor %}
+                   </ul>
+                   {% endif %}
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

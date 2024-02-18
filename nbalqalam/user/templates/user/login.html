@@ -1,0 +1,35 @@
+{%extends 'user/base-temp.html'%}
+{%block content%}
+    <div class="row section-100">
+        <div class="col-md-11">
+            <div class="row h-100">
+                <div class="col-md-6 col-sm-7 col-lg-5 col-xl-4 col-12 mx-auto my-auto">
+                    <div class="bg-white py-5 px-3 rounded d-flex flex-column">
+                        <h5 class="text-center">LOGIN</h5>
+                    <form method="post" action="{{url_for('user.login')}}">
+                        {{form.hidden_tag()}}
+                        <div class="form-group my-2">
+                            {{form.email(class="form-control", placeholder="Email Address")}}                            
+                        </div>
+                        <div class="form-group my-2">
+                            {{form.password(class="form-control", placeholder="Password")}}
+                        </div>
+                        <div class="form-check my-2">
+                            {{form.remember_me(class="form-check-input")}}
+                            {{form.remember_me.label(class="form-check-label")}}
+                        </div>
+                            {{form.submit(class="btn btn-primary mt-2")}}
+                        </form>
+                        <div class="d-flex flex-column mt-3">
+                        <a href="{{url_for('user.request_password_reset')}}">I forgot my Password</a>
+                        <a href="{{url_for('user.signup')}}">Create an Account</a>
+                        <a href="{{url_for('main.index')}}">Home</a>
+                        </div>
+                        
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock content%}
